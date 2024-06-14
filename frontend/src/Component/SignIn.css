@@ -1,0 +1,718 @@
+
+/*
+.SignInComponentWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInComponentImageContainer {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInComponentImageContainer > img {
+  width: 100%;
+  height: 100%;
+}
+
+.SignInComponentMainComponent {
+  width: 35%;
+  border-radius: 20px;
+  min-height: 50%;
+  overflow-y: scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.047);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 2rem 0;
+}
+
+.SignInComponentMainComponent::-webkit-scrollbar {
+  display: none;
+}
+
+.SignInComponentMainComponentTopLabel {
+  width: 85%;
+  margin-top: 35px;
+  font-size: xx-large;
+  font-weight: 900;
+  color: #3a244a;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.SignInComponentHighLightSpan {
+  color: #d72638;
+  margin-left: 5px;
+}
+
+.SignInComponentMainComponentInputFeilds {
+  width: 85%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  margin-top: 20px;
+}
+
+.SignInComponentMainComponentInputFeilds > input {
+  border: none;
+  border-bottom: 1px solid #5555554f;
+  width: 80%;
+  height: 30px;
+  font-size: smaller;
+}
+
+.SignInComponentMainComponentInputFeilds > input:focus {
+  outline: none;
+}
+
+.SignInComponentMainComponentButtons {
+  width: 85%;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 60px; 
+}
+
+.SignInComponentMainComponentBtn {
+  width: 100%;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3a244a;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: large;
+  transition: all 1s;
+}
+
+.otpButton {
+  width: 50%;
+  margin-left: 20%;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3a244a;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: large;
+  transition: all 1s;
+  background-color: #3a244a;
+  color: #fff;
+}
+
+.SignInComponentMainComponentBtnDark {
+  background-color: #3a244a;
+  color: #fff;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.OtpContent {
+  justify-content: center;
+  align-items: center;
+  margin-left: 12%;
+  margin-right: 12%;
+}
+
+.otpHeading {
+  display: flex;
+  justify-content: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.OtpContent h1 {
+  color: rgb(65, 105, 225);
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #ccc;
+}
+
+@media (max-width: 768px) {
+  .SignInComponentWrapper {
+      flex-direction: column;
+      height: auto;
+  }
+
+  .SignInComponentImageContainer {
+      width: 100%;
+      height: 50vh;
+  }
+
+  .SignInComponentMainComponent {
+      width: 80%;
+      margin: 2rem 0;
+      height: auto;
+      overflow-y: initial;
+  }
+
+  .modal-content {
+      width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .SignInComponentMainComponent {
+      width: 90%;
+      margin: 2rem 0;
+  }
+
+  .modal-content {
+      width: 90%;
+  }
+}
+*/
+/* 
+.SignInComponentWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInComponentImageContainer {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInComponentImageContainer > img {
+  width: 100%;
+  height: 100%;
+}
+
+.SignInComponentMainComponent {
+  width: 35%;
+  border-radius: 20px;
+  min-height: 50%;
+  overflow-y: scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.047);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 4rem 0; 
+  
+}
+.SignUpComponentMainComponent {
+  width: 35%;
+  border-radius: 20px;
+  min-height: 50%;
+  overflow-y: scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.047);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+ 
+  margin-top : 15%;
+  
+}
+
+.SignInComponentMainComponent::-webkit-scrollbar {
+  display: none;
+}
+
+.SignInComponentMainComponentTopLabel {
+  width: 85%;
+  margin-top: 35px;
+  font-size: xx-large;
+  font-weight: 900;
+  color: #3a244a;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.SignInComponentHighLightSpan {
+  color: #d72638;
+  margin-left: 5px;
+}
+
+.SignInComponentMainComponentInputFeilds {
+  width: 85%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  margin-top: 20px;
+}
+
+.SignInComponentMainComponentInputFeilds > input {
+  border: none;
+  border-bottom: 1px solid #5555554f;
+  width: 80%;
+  height: 30px;
+  font-size: smaller;
+}
+
+.SignInComponentMainComponentInputFeilds > input:focus {
+  outline: none;
+}
+
+.SignInComponentMainComponentButtons {
+  width: 85%;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.SignInComponentMainComponentBtn {
+  width: 100%;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3a244a;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: large;
+  transition: all 1s;
+}
+
+.otpButton {
+  width: 50%;
+  margin-left: 20%;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3a244a;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: large;
+  transition: all 1s;
+  background-color: #3a244a;
+  color: #fff;
+}
+
+.SignInComponentMainComponentBtnDark {
+  background-color: #3a244a;
+  color: #fff;
+}
+
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.OtpContent {
+  justify-content: center;
+  align-items: center;
+  margin-left: 12%;
+  margin-right: 12%;
+}
+
+.otpHeading {
+  display: flex;
+  justify-content: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.OtpContent h1 {
+  color: rgb(65, 105, 225);
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #ccc;
+}
+
+
+@media (max-width: 768px) {
+  .SignInComponentWrapper {
+      flex-direction: column;
+      height: auto;
+  }
+
+  .SignInComponentImageContainer {
+      width: 100%;
+      height: 50vh;
+  }
+
+  .SignInComponentMainComponent {
+      width: 80%;
+      margin: 2rem 0; 
+      height: auto;
+      overflow-y: initial;
+  }
+
+  .modal-content {
+      width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .SignInComponentMainComponent {
+      width: 90%;
+      margin: 1rem 0; 
+  }
+
+  .modal-content {
+      width: 90%;
+  }
+} */
+
+.SignInComponentWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInComponentImageContainer {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInComponentImageContainer > img {
+  width: 100%;
+  height: 100%;
+}
+
+.SignInComponentMainComponent {
+  width: 35%;
+  border-radius: 20px;
+  min-height: 50%;
+  overflow-y: scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.047);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 4rem 0;
+}
+
+.SignUpComponentMainComponent {
+  width: 35%;
+  border-radius: 20px;
+  min-height: 50%;
+  overflow-y: scroll;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.047);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin-top:15%;
+  
+}
+
+.SignInComponentMainComponent::-webkit-scrollbar,
+.SignUpComponentMainComponent::-webkit-scrollbar {
+  display: none;
+}
+
+.SignInComponentMainComponentTopLabel,
+.SignUpComponentMainComponentTopLabel {
+  width: 85%;
+  margin-top: 35px;
+  font-size: xx-large;
+  font-weight: 900;
+  color: #3a244a;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.SignInComponentHighLightSpan {
+  color: #d72638;
+  margin-left: 5px;
+}
+
+.SignInComponentMainComponentInputFeilds,
+.SignUpComponentMainComponentInputFeilds {
+  width: 85%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  margin-top: 20px;
+}
+
+.SignInComponentMainComponentInputFeilds > input,
+.SignUpComponentMainComponentInputFeilds > input {
+  border: none;
+  border-bottom: 1px solid #5555554f;
+  width: 80%;
+  height: 30px;
+  font-size: smaller;
+}
+
+.SignInComponentMainComponentInputFeilds > input:focus,
+.SignUpComponentMainComponentInputFeilds > input:focus {
+  outline: none;
+}
+
+.SignInComponentMainComponentButtons,
+.SignUpComponentMainComponentButtons {
+  width: 85%;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.SignInComponentMainComponentBtn,
+.SignUpComponentMainComponentBtn {
+  width: 100%;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3a244a;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: large;
+  transition: all 1s;
+}
+
+.otpButton {
+  width: 50%;
+  margin-left: 20%;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3a244a;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: large;
+  transition: all 1s;
+  background-color: #3a244a;
+  color: #fff;
+}
+
+.SignInComponentMainComponentBtnDark,
+.SignUpComponentMainComponentBtnDark {
+  background-color: #3a244a;
+  color: #fff;
+}
+
+/* Modal CSS */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.OtpContent {
+  justify-content: center;
+  align-items: center;
+  margin-left: 12%;
+  margin-right: 12%;
+}
+
+.otpHeading {
+  display: flex;
+  justify-content: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.OtpContent h1 {
+  color: rgb(65, 105, 225);
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .SignInComponentWrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .SignInComponentImageContainer {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .SignInComponentMainComponent,
+  .SignUpComponentMainComponent {
+    width: 80%;
+    margin: 2rem 0;
+    height: auto;
+    overflow-y: initial;
+  }
+
+  .modal-content {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .SignInComponentMainComponent,
+  .SignUpComponentMainComponent {
+    width: 90%;
+    margin: 1rem 0;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+
+
+/* .Signupbutton{
+    background-color: #3a244a;
+    color: #fff;
+} */
