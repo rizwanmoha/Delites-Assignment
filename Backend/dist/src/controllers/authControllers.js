@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signin = exports.signup = void 0;
+exports.verifyOtp = exports.signin = exports.signup = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const authServices_1 = require("../services/authServices");
 const authValidations_1 = require("../validations/authValidations");
@@ -54,11 +54,8 @@ const generateAndSendOTP = (email) => __awaiter(void 0, void 0, void 0, function
         // Generate OTP
         const otp = generateOTP();
         // Save OTP to the database
-        const otpDocument = new otpModel_1.default({
-            email,
-            otpNumber: otp,
-        });
-        yield otpDocument.save();
+        const newOtp = new otpModel_1.default({ email, otpNumber: otp });
+        yield newOtp.save();
         // Send OTP via email
         yield sendOTP(email, otp);
     }
@@ -68,13 +65,17 @@ const generateAndSendOTP = (email) => __awaiter(void 0, void 0, void 0, function
 });
 const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { error, value } = authValidations_1.signupValidationSchema.validate(req.body);
+        const { firstName, lastName, password, contactMode, email } = req.body;
+        const newObj = { firstName, lastName, password, contactMode, email };
+        const { error, value } = authValidations_1.signupValidationSchema.validate(newObj);
         if (error) {
             // return res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
+            console.log(req.body);
+            console.log(error);
+            console.log("here is coming");
             res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
             return;
         }
-        const { email } = value;
         const existingUser = yield userModel_1.default.findOne({ email });
         if (existingUser) {
             res.status(404).send({ success: false, message: "User already exist please login" });
@@ -116,3 +117,41 @@ const signin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.signin = signin;
+const verifyOtp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // const { email, otp } = req.body;
+        const { firstName, lastName, password, contactMode, email, otp } = req.body;
+        const userDetails = { firstName, lastName, password, contactMode, email };
+        const existingOtp = yield otpModel_1.default.findOne({ email: email });
+        if (!existingOtp) {
+            res.status(400).send({ success: false, message: "Otp expired" });
+            return;
+        }
+        // Fetch OTP document from the database
+        const otpDocument = yield otpModel_1.default.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
+        if (!otpDocument) {
+            res.status(404).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
+            return;
+        }
+        // Verify OTP
+        if (otpDocument.otpNumber !== otp) {
+            res.status(401).json({ success: false, message: 'Invalid OTP. Please try again.' });
+            return;
+        }
+        // OTP verification successful, proceed with sign-up process
+        // You can call the sign-up service here if needed
+        const { success, message } = yield (0, authServices_1.signupService)(userDetails);
+        if (success) {
+            // return res.status(201).json({ success: true, message });
+            res.status(201).json({ success: true, message });
+        }
+        else {
+            res.status(409).json({ success: false, message });
+        }
+        // res.status(200).json({ success: true, message: 'OTP verified successfully. You can proceed with sign-up.' });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.verifyOtp = verifyOtp;
