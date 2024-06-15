@@ -8,8 +8,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     <div className="homepage">
       <section className="hero">
         <div className="hero-content">
-          <h1>Welcome to Doctor App</h1>
-          <p>Your trusted healthcare companion</p>
+          <h1>Welcome to Highway Delite</h1>
+          <p>India's largest digitally connected</p>
           <button className="cta-btn">Get Started</button>
         </div>
       </section>
@@ -19,26 +19,27 @@ const HomePage: React.FC<HomePageProps> = () => {
         <div className="feature-cards">
           <div className="feature-card">
             <i className="fas fa-calendar-check"></i>
-            <h3>Appointment Scheduling</h3>
-            <p>Schedule appointments with doctors easily</p>
+            <h3>Digitally Connected</h3>
+            <p>The platform enables commuters to have real time location based verified highway services information</p>
           </div>
           <div className="feature-card">
             <i className="fas fa-user-md"></i>
             <h3>Experienced Doctors</h3>
-            <p>Access to a team of highly qualified doctors</p>
+            <p>Data driven highway commerce platform dedicated to provide connected mobility experience to travellers, drivers & merchants.</p>
           </div>
           <div className="feature-card">
             <i className="fas fa-notes-medical"></i>
-            <h3>Medical Records</h3>
-            <p>Securely store and access your medical records</p>
+            <h3>Our Aim</h3>
+            <p>Our aim is to cover all NHs and SHs and enable more than 10 lakh highway businesses to be digitally connected</p>
           </div>
         </div>
       </section>
 
       <section className="cta">
         <div className="cta-content">
-          <h2>Join Doctor App Today</h2>
-          <p>Experience the future of healthcare</p>
+          <h2>Join our team</h2>
+          <p>Make highway travel a connected, safe and personalized experience.
+          </p>
           <button className="cta-btn">Sign Up</button>
         </div>
       </section>

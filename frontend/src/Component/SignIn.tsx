@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import SignInImage from "../Pictures/SignIn.png"
 import "./SignIn.css"
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignIn() {
-
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
+
+    const navigate = useNavigate();
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
@@ -17,17 +22,31 @@ export default function SignIn() {
 
     const handleSignIn = async () => {
         try {
-            console.log(email);
-            console.log(password);
-            const response = await axios.post('your_api_endpoint', {
+            if (!email || !password) {
+                toast.error("Please fill all the fields");
+                return;
+            }
+
+            const response = await axios.post('http://localhost:5000/api/v1/signin', {
                 email,
                 password
             });
-            console.log('API response:', response.data);
-            // Handle successful sign-in
+
+            if (response.status === 200) {
+                toast('User Login successfully');
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000);
+            } else if (response.status === 201) {
+                toast('Password not matched');
+            } else if (response.status === 202) {
+                toast("Email is not registered");
+            } else if (response.status === 203) {
+                toast("Email is not valid");
+            }
         } catch (error) {
-            console.error('Error:', error);
-            // Handle sign-in error
+            toast.error('server error');
+           
         }
     };
 
@@ -39,7 +58,7 @@ export default function SignIn() {
             <div className="SignInComponentMainComponent">
                 <div className="SignInComponentMainComponentTopLabel">Fill What We Know <span className="SignInComponentHighLightSpan">!</span></div>
                 <div className="SignInComponentMainComponentInputFeilds">
-                    <input type="text" placeholder='Email'  value={email} onChange={handleEmailChange} />
+                    <input type="text" placeholder='Email' value={email} onChange={handleEmailChange} />
                 </div>
                 <div className="SignInComponentMainComponentInputFeilds">
                     <input type="text" placeholder='Password' value={password} onChange={handlePasswordChange} />
@@ -49,6 +68,7 @@ export default function SignIn() {
                     <div className="SignInComponentMainComponentBtn SignInComponentMainComponentBtnLight">Sign Up</div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

@@ -120,13 +120,13 @@ const signup = async (req: Request, res: Response, next: NextFunction): Promise<
       console.log(req.body);
       console.log(error);
       console.log("here is coming");
-      res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
+      res.status(202).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
       return;
     }
     
     const existingUser = await userModel.findOne({email});
     if(existingUser){
-      res.status(404).send({success : false , message : "User already exist please login"});
+      res.status(201).send({success : false , message : "User already exist please login"});
       return;
     }
     await generateAndSendOTP(email);
@@ -151,7 +151,7 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
     const { error, value } = signinValidationSchema.validate(req.body);
 
     if (error) {
-      res.status(400).json({ success: false, message: "Email or Password missing" });
+      res.status(203).json({ success: false, message: "Email is not valid" });
       return
     }
 
@@ -173,11 +173,7 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
     // const { email, otp } = req.body;
     const {firstName , lastName , password , contactMode , email , otp} = req.body;
     const userDetails = {firstName , lastName , password , contactMode , email};
-      const existingOtp = await Otp.findOne({email : email});
-      if(!existingOtp){
-        res.status(400).send({success : false , message : "Otp expired"});
-        return ;
-      }
+      
     
    
    
@@ -185,13 +181,13 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
     // Fetch OTP document from the database
     const otpDocument = await Otp.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
     if (!otpDocument) {
-      res.status(404).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
+      res.status(200).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
       return;
     }
 
     // Verify OTP
     if (otpDocument.otpNumber !== otp) {
-      res.status(401).json({ success: false, message: 'Invalid OTP. Please try again.' });
+      res.status(202).json({ success: false, message: 'Invalid OTP. Please try again.' });
       return;
     }
 
@@ -204,6 +200,7 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
     } else {
        res.status(409).json({ success: false, message });
     }
+
     // res.status(200).json({ success: true, message: 'OTP verified successfully. You can proceed with sign-up.' });
 
   } catch (error) {

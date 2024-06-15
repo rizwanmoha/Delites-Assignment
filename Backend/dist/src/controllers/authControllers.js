@@ -73,12 +73,12 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             console.log(req.body);
             console.log(error);
             console.log("here is coming");
-            res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
+            res.status(202).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
             return;
         }
         const existingUser = yield userModel_1.default.findOne({ email });
         if (existingUser) {
-            res.status(404).send({ success: false, message: "User already exist please login" });
+            res.status(201).send({ success: false, message: "User already exist please login" });
             return;
         }
         yield generateAndSendOTP(email);
@@ -102,7 +102,7 @@ const signin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { error, value } = authValidations_1.signinValidationSchema.validate(req.body);
         if (error) {
-            res.status(400).json({ success: false, message: "Email or Password missing" });
+            res.status(203).json({ success: false, message: "Email is not valid" });
             return;
         }
         const { success, status, message, token, user } = yield (0, authServices_1.signinService)(value);
@@ -122,20 +122,15 @@ const verifyOtp = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         // const { email, otp } = req.body;
         const { firstName, lastName, password, contactMode, email, otp } = req.body;
         const userDetails = { firstName, lastName, password, contactMode, email };
-        const existingOtp = yield otpModel_1.default.findOne({ email: email });
-        if (!existingOtp) {
-            res.status(400).send({ success: false, message: "Otp expired" });
-            return;
-        }
         // Fetch OTP document from the database
         const otpDocument = yield otpModel_1.default.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
         if (!otpDocument) {
-            res.status(404).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
+            res.status(200).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
             return;
         }
         // Verify OTP
         if (otpDocument.otpNumber !== otp) {
-            res.status(401).json({ success: false, message: 'Invalid OTP. Please try again.' });
+            res.status(202).json({ success: false, message: 'Invalid OTP. Please try again.' });
             return;
         }
         // OTP verification successful, proceed with sign-up process

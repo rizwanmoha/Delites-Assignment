@@ -85,11 +85,11 @@ const signinService = (value) => __awaiter(void 0, void 0, void 0, function* () 
         const { email, password } = value;
         const user = yield userModel_1.default.findOne({ email });
         if (!user) {
-            return { success: false, status: 404, message: "User not found" };
+            return { success: false, status: 202, message: "User not found" };
         }
         const isValidPassword = yield bcryptjs_1.default.compare(password, user.password);
         if (!isValidPassword) {
-            return { success: false, status: 401, message: "Invalid credentials" };
+            return { success: false, status: 201, message: "Invalid credentials" };
         }
         const token = (0, jwtUtil_1.generateToken)(user);
         return { success: true, status: 200, token, user, message: "User login successfully" };

@@ -128,13 +128,13 @@ export const signinService = async (value: SigninData): Promise<SigninResult> =>
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return { success: false, status: 404, message: "User not found" };
+      return { success: false, status: 202, message: "User not found" };
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      return { success: false, status: 401, message: "Invalid credentials" };
+      return { success: false, status: 201, message: "Invalid credentials" };
     }
 
     const token = generateToken(user);
