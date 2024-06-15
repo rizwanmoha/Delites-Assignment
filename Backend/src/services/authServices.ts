@@ -101,10 +101,7 @@ export const signupService = async (userData: SignupData): Promise<SignupResult>
   try {
     const { firstName, lastName, email, password, contactMode } = userData;
 
-    const foundUser = await userModel.findOne({ email });
-    if (foundUser) {
-      return { success: false, message: "User already exists" };
-    }
+  
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);

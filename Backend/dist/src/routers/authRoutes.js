@@ -14,5 +14,5 @@ const authControllers_1 = require("../controllers/authControllers");
 const router = express_1.default.Router();
 router.post('/signup', authControllers_1.signup);
 router.post('/signin', authControllers_1.signin);
-// router.post('/verify-otp', VerifyOtp)
+router.post('/verify-otp', authControllers_1.verifyOtp);
 exports.default = router;

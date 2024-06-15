@@ -99,11 +99,8 @@ const generateAndSendOTP = async (email: string): Promise<void> => {
     const otp = generateOTP();
 
     // Save OTP to the database
-    const otpDocument: IOtp = new Otp({
-      email,
-      otpNumber: otp,
-    });
-    await otpDocument.save();
+    const newOtp = new Otp({email , otpNumber : otp});
+    await newOtp.save();
 
     // Send OTP via email
     await sendOTP(email, otp);
@@ -115,13 +112,18 @@ const generateAndSendOTP = async (email: string): Promise<void> => {
 
 const signup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { error, value } = signupValidationSchema.validate(req.body);
+    const {firstName , lastName , password , contactMode , email} = req.body;
+    const newObj = {firstName , lastName , password , contactMode , email};
+    const { error, value } = signupValidationSchema.validate(newObj);
     if (error) {
       // return res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
+      console.log(req.body);
+      console.log(error);
+      console.log("here is coming");
       res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
       return;
     }
-    const {email} = value;
+    
     const existingUser = await userModel.findOne({email});
     if(existingUser){
       res.status(404).send({success : false , message : "User already exist please login"});
@@ -166,49 +168,47 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
   }
 };
 
-// export const verifyOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-//   try {
-//     const { email, otp } = req.body;
-//       const existingOtp = await Otp.findOne({email : email});
-//       if(!existingOtp){
-//         res.status(400).send({success : false , message : "Otp expired"});
-//         return ;
-//       }
-//     // Validate request body
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       res.status(400).json({ success: false, message: 'Validation failed', errors: errors.array() });
-//       return;
-//     }
+ const verifyOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    // const { email, otp } = req.body;
+    const {firstName , lastName , password , contactMode , email , otp} = req.body;
+    const userDetails = {firstName , lastName , password , contactMode , email};
+      const existingOtp = await Otp.findOne({email : email});
+      if(!existingOtp){
+        res.status(400).send({success : false , message : "Otp expired"});
+        return ;
+      }
+    
+   
+   
 
-//     // Check if the user exists
-//     const existingUser = await userModel.findOne({ email });
-//     if (!existingUser) {
-//       res.status(404).json({ success: false, message: 'User not found. Please sign up first.' });
-//       return;
-//     }
+    // Fetch OTP document from the database
+    const otpDocument = await Otp.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
+    if (!otpDocument) {
+      res.status(404).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
+      return;
+    }
 
-//     // Fetch OTP document from the database
-//     const otpDocument = await otp.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
-//     if (!otpDocument) {
-//       res.status(404).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
-//       return;
-//     }
+    // Verify OTP
+    if (otpDocument.otpNumber !== otp) {
+      res.status(401).json({ success: false, message: 'Invalid OTP. Please try again.' });
+      return;
+    }
 
-//     // Verify OTP
-//     if (otpDocument.otpNumber !== otp) {
-//       res.status(401).json({ success: false, message: 'Invalid OTP. Please try again.' });
-//       return;
-//     }
+    // OTP verification successful, proceed with sign-up process
+    // You can call the sign-up service here if needed
+    const { success, message } = await signupService(userDetails);
+    if (success) {
+      // return res.status(201).json({ success: true, message });
+      res.status(201).json({ success: true, message });
+    } else {
+       res.status(409).json({ success: false, message });
+    }
+    // res.status(200).json({ success: true, message: 'OTP verified successfully. You can proceed with sign-up.' });
 
-//     // OTP verification successful, proceed with sign-up process
-//     // You can call the sign-up service here if needed
+  } catch (error) {
+    next(error);
+  }
+};
 
-//     res.status(200).json({ success: true, message: 'OTP verified successfully. You can proceed with sign-up.' });
-
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-export { signup, signin };
+export { signup, signin , verifyOtp };

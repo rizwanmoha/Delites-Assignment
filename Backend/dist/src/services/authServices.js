@@ -63,10 +63,6 @@ const jwtUtil_1 = require("../utils/jwtUtil");
 const signupService = (userData) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { firstName, lastName, email, password, contactMode } = userData;
-        const foundUser = yield userModel_1.default.findOne({ email });
-        if (foundUser) {
-            return { success: false, message: "User already exists" };
-        }
         const salt = yield bcryptjs_1.default.genSalt(10);
         const hashedPassword = yield bcryptjs_1.default.hash(password, salt);
         const user = new userModel_1.default({
