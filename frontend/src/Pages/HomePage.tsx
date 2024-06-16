@@ -1,19 +1,31 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
 interface HomePageProps {}
 
 const HomePage: React.FC<HomePageProps> = () => {
+  const navigate = useNavigate();
+
+  const handleSignUp = () => {
+    navigate('/signup');
+  };
+
+  const handleGetStarted = () => {
+    navigate('/signup');
+  };
+
   return (
     <div className="homepage">
       <section className="hero">
         <div className="hero-content">
           <h1>Welcome to Highway Delite</h1>
           <p>India's largest digitally connected</p>
-          <button className="cta-btn">Get Started</button>
+          <button className="cta-btn" onClick={handleGetStarted}>
+            Get Started
+          </button>
         </div>
       </section>
-
       <section className="features">
         <h2>Features</h2>
         <div className="feature-cards">
@@ -24,7 +36,7 @@ const HomePage: React.FC<HomePageProps> = () => {
           </div>
           <div className="feature-card">
             <i className="fas fa-user-md"></i>
-            <h3>Experienced Doctors</h3>
+            <h3>Our Motive</h3>
             <p>Data driven highway commerce platform dedicated to provide connected mobility experience to travellers, drivers & merchants.</p>
           </div>
           <div className="feature-card">
@@ -34,13 +46,13 @@ const HomePage: React.FC<HomePageProps> = () => {
           </div>
         </div>
       </section>
-
       <section className="cta">
         <div className="cta-content">
           <h2>Join our team</h2>
-          <p>Make highway travel a connected, safe and personalized experience.
-          </p>
-          <button className="cta-btn">Sign Up</button>
+          <p>Make highway travel a connected, safe and personalized experience.</p>
+          <button className="cta-btn" onClick={handleSignUp}>
+            Sign Up
+          </button>
         </div>
       </section>
     </div>

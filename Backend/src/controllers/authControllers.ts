@@ -1,58 +1,3 @@
-// const User = require("../models/User");
-// const bcrypt = require("bcryptjs");
-
-// const {signupService , signinService} = require('../services/authServices.js');
-// const {signupValidationSchema , signinValidationSchema} = require('../validations/authValidations.js');
-
-// const signup = async (req, res, next) => {
-//     try {
-//       const { error, value } = signupValidationSchema.validate(req.body);
-//       if (error) {
-//         return res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
-//       }
-  
-//       const { success, message } = await signupService(value);
-//       if (success) {
-//         return res.status(201).json({ success: true, message });
-//       } else {
-//         return res.status(409).json({ success: false, message });
-//       }
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
-
-
-
-// const signin = async (req, res, next) => {
-//     try {
-//       const { error, value } = signinValidationSchema.validate(req.body);
-  
-//       if (error) {
-//         return res.status(400).json({ success: false, message: "Email or Password missing" });
-//       }
-        
-        
-//       const { success, status, message, token,  user } = await signinService(value);
-      
-//       if (!success) {
-//         return res.status(status).json({ success: false, message });
-//       }
-      
-  
-//       return res.status(status).json({ success: true, token,  user , message });
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
-
-
-
-// module.exports  = {
-//     signup,
-//     signin,
-// }
-
 import { Request, Response, NextFunction } from "express";
 import nodemailer from 'nodemailer';
 import { signupService, signinService } from '../services/authServices';
@@ -62,10 +7,10 @@ import userModel from '../models/userModel';
 
 
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: process.env.SERVICE,
   auth: {
-    user: 'luckiestluck9569@gmail.com', 
-    pass: 'zoevzhybfphvvgwt', 
+    user: process.env.USER,
+    pass: process.env.PASS
   },
 });
 
@@ -95,14 +40,14 @@ const sendOTP = async (email: string, otp: string): Promise<void> => {
 
 const generateAndSendOTP = async (email: string): Promise<void> => {
   try {
-    // Generate OTP
+    
     const otp = generateOTP();
 
-    // Save OTP to the database
+    
     const newOtp = new Otp({email , otpNumber : otp});
     await newOtp.save();
 
-    // Send OTP via email
+    
     await sendOTP(email, otp);
   } catch (error) {
     console.error('Error generating and sending OTP:', error);
@@ -116,7 +61,7 @@ const signup = async (req: Request, res: Response, next: NextFunction): Promise<
     const newObj = {firstName , lastName , password , contactMode , email};
     const { error, value } = signupValidationSchema.validate(newObj);
     if (error) {
-      // return res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
+     
       console.log(req.body);
       console.log(error);
       console.log("here is coming");
@@ -132,15 +77,9 @@ const signup = async (req: Request, res: Response, next: NextFunction): Promise<
     await generateAndSendOTP(email);
      res.status(200).send({success : true , message : "Email send successfully"});
 
-     return
+     return ;
 
-    const { success, message } = await signupService(value);
-    if (success) {
-      // return res.status(201).json({ success: true, message });
-      res.status(201).json({ success: true, message });
-    } else {
-       res.status(409).json({ success: false, message });
-    }
+   
   } catch (error) {
     next(error);
   }
@@ -170,7 +109,7 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
 
  const verifyOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // const { email, otp } = req.body;
+    
     const {firstName , lastName , password , contactMode , email , otp} = req.body;
     const userDetails = {firstName , lastName , password , contactMode , email};
       
@@ -178,32 +117,28 @@ const signin = async (req: Request, res: Response, next: NextFunction): Promise<
    
    
 
-    // Fetch OTP document from the database
-    const otpDocument = await Otp.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
+
+    const otpDocument = await Otp.findOne({ email }).sort({ time: -1 }); 
     if (!otpDocument) {
       res.status(200).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
       return;
     }
 
-    // Verify OTP
+   
     if (otpDocument.otpNumber !== otp) {
       res.status(202).json({ success: false, message: 'Invalid OTP. Please try again.' });
       return;
     }
 
-    // OTP verification successful, proceed with sign-up process
-    // You can call the sign-up service here if needed
     const { success, message } = await signupService(userDetails);
     if (success) {
-      // return res.status(201).json({ success: true, message });
+      
       res.status(201).json({ success: true, message });
     } else {
        res.status(409).json({ success: false, message });
     }
 
-    // res.status(200).json({ success: true, message: 'OTP verified successfully. You can proceed with sign-up.' });
-
-  } catch (error) {
+   } catch (error) {
     next(error);
   }
 };

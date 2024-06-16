@@ -1,13 +1,16 @@
-.header {
+  .header {
     background-color: #333;
     color: #fff;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    width: 100%;
   }
   
   .logo a {
@@ -22,6 +25,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    margin-left: auto;
   }
   
   .nav-links li {
@@ -36,6 +40,7 @@
   .burger {
     display: none;
     cursor: pointer;
+    margin-left: auto;
   }
   
   .burger div {
@@ -48,6 +53,20 @@
   @media (max-width: 768px) {
     .nav-links {
       display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background-color: #333;
+      padding: 20px;
+    }
+  
+    .nav-links.active {
+      display: flex;
+    }
+  
+    .nav-links li {
+      margin: 10px 0;
     }
   
     .burger {

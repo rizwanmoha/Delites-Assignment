@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { baseURL } from '../Config';
 
 interface FormData {
     firstName: string;
@@ -54,7 +55,7 @@ export default function SignUp() {
       }
         try {
             
-            const response = await axios.post("http://localhost:5000/api/v1/signup", formData);
+            const response = await axios.post(`${baseURL}/api/v1/signup`, formData);
             
             
             if (response.status==201) {
@@ -82,11 +83,14 @@ export default function SignUp() {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
+    const handleSignInClick = () => {
+      navigate('/signin');
+    };
 
     const handleOtpVerification = async () => {
         try {
            
-            const response = await axios.post("http://localhost:5000/api/v1/verify-otp", formData);
+            const response = await axios.post(`${baseURL}/api/v1/verify-otp`, formData);
 
             if (response.status == 201) {
               
@@ -149,6 +153,7 @@ export default function SignUp() {
           <select name="contactMode"
             value={formData.contactMode}
             onChange={handleInputChange}>
+              <option >Select</option>
             <option value="email">Email</option>
             <option value="phone">Phone</option>
           </select>
@@ -166,7 +171,7 @@ export default function SignUp() {
                 Sign up
             </button>
        
-          <div className="SignInComponentMainComponentBtn SignInComponentMainComponentBtnLight">
+          <div className="SignInComponentMainComponentBtn SignInComponentMainComponentBtnLight" onClick={handleSignInClick}>
             Sign In
           </div>
         </div>

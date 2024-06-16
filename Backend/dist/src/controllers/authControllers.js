@@ -1,6 +1,4 @@
 "use strict";
-// const User = require("../models/User");
-// const bcrypt = require("bcryptjs");
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -21,10 +19,10 @@ const authValidations_1 = require("../validations/authValidations");
 const otpModel_1 = __importDefault(require("../models/otpModel"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 const transporter = nodemailer_1.default.createTransport({
-    service: 'Gmail',
+    service: process.env.SERVICE,
     auth: {
-        user: 'luckiestluck9569@gmail.com',
-        pass: 'zoevzhybfphvvgwt',
+        user: process.env.USER,
+        pass: process.env.PASS
     },
 });
 const generateOTP = () => {
@@ -51,12 +49,9 @@ const sendOTP = (email, otp) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const generateAndSendOTP = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Generate OTP
         const otp = generateOTP();
-        // Save OTP to the database
         const newOtp = new otpModel_1.default({ email, otpNumber: otp });
         yield newOtp.save();
-        // Send OTP via email
         yield sendOTP(email, otp);
     }
     catch (error) {
@@ -69,7 +64,6 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         const newObj = { firstName, lastName, password, contactMode, email };
         const { error, value } = authValidations_1.signupValidationSchema.validate(newObj);
         if (error) {
-            // return res.status(400).json({ success: false, message: 'Validation Failed', error: error.details[0].message });
             console.log(req.body);
             console.log(error);
             console.log("here is coming");
@@ -84,14 +78,6 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         yield generateAndSendOTP(email);
         res.status(200).send({ success: true, message: "Email send successfully" });
         return;
-        const { success, message } = yield (0, authServices_1.signupService)(value);
-        if (success) {
-            // return res.status(201).json({ success: true, message });
-            res.status(201).json({ success: true, message });
-        }
-        else {
-            res.status(409).json({ success: false, message });
-        }
     }
     catch (error) {
         next(error);
@@ -119,31 +105,24 @@ const signin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 exports.signin = signin;
 const verifyOtp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // const { email, otp } = req.body;
         const { firstName, lastName, password, contactMode, email, otp } = req.body;
         const userDetails = { firstName, lastName, password, contactMode, email };
-        // Fetch OTP document from the database
-        const otpDocument = yield otpModel_1.default.findOne({ email }).sort({ time: -1 }); // Assuming you store the latest OTP document
+        const otpDocument = yield otpModel_1.default.findOne({ email }).sort({ time: -1 });
         if (!otpDocument) {
             res.status(200).json({ success: false, message: 'OTP not found. Please request a new OTP.' });
             return;
         }
-        // Verify OTP
         if (otpDocument.otpNumber !== otp) {
             res.status(202).json({ success: false, message: 'Invalid OTP. Please try again.' });
             return;
         }
-        // OTP verification successful, proceed with sign-up process
-        // You can call the sign-up service here if needed
         const { success, message } = yield (0, authServices_1.signupService)(userDetails);
         if (success) {
-            // return res.status(201).json({ success: true, message });
             res.status(201).json({ success: true, message });
         }
         else {
             res.status(409).json({ success: false, message });
         }
-        // res.status(200).json({ success: true, message: 'OTP verified successfully. You can proceed with sign-up.' });
     }
     catch (error) {
         next(error);

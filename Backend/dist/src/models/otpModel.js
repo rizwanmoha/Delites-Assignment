@@ -29,7 +29,6 @@ const OtpSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         max: 50,
-        unique: true
     },
     otpNumber: {
         type: String,

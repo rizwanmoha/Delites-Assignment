@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { baseURL } from '../Config';
 
 export default function SignIn() {
     const [email, setEmail] = useState<string>('');
@@ -19,6 +20,9 @@ export default function SignIn() {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
+    const handleSignUpClick = () => {
+        navigate('/signup');
+      };
 
     const handleSignIn = async () => {
         try {
@@ -27,7 +31,7 @@ export default function SignIn() {
                 return;
             }
 
-            const response = await axios.post('http://localhost:5000/api/v1/signin', {
+            const response = await axios.post(`${baseURL}/api/v1/signin`, {
                 email,
                 password
             });
@@ -65,7 +69,7 @@ export default function SignIn() {
                 </div>
                 <div className="SignInComponentMainComponentButtons">
                     <button className="SignInComponentMainComponentBtn SignInComponentMainComponentBtnDark" onClick={handleSignIn}>Sign In</button>
-                    <div className="SignInComponentMainComponentBtn SignInComponentMainComponentBtnLight">Sign Up</div>
+                    <div className="SignInComponentMainComponentBtn SignInComponentMainComponentBtnLight" onClick={handleSignUpClick}>Sign Up</div>
                 </div>
             </div>
             <ToastContainer />

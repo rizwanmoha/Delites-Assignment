@@ -11,7 +11,7 @@ const OtpSchema: Schema<IOtp> = new Schema<IOtp>({
     type: String,
     required: true,
     max: 50,
-    unique : true
+   
   },
   otpNumber: {
     type: String,
