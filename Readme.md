@@ -1,5 +1,5 @@
 
-               Assignment
+               # Assignment
 
 
 # Process for running the project
@@ -7,7 +7,6 @@
 
 Just clone the project go inside the frontend folder and hit the command "npm install" and then hit the command "npm start"
 
-for Backend go inside the Backend folder and hit the command "npm install" and then hit the command "npm run dev"
 
 Then check our website on localhost:3000 on the browser
 
@@ -23,4 +22,4 @@ Then check our website on localhost:3000 on the browser
   6. Services - It having all the services which our project had.
   7. Validations - It will validate the body of all api's
 
-# Through axios library we are interacting frontend and backend
+# Through axios library frontend and backend are interacting
